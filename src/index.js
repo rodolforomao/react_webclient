@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 import { w3cwebsocket as W3CWebSocket} from "websocket";
 import { Card, Avatar, Input, Typography } from 'antd';
 import 'antd/dist/antd.css';
+import './index.css'
 
 const { Search } = Input;
+const { Text } = Typography;
 
 const client = new W3CWebSocket('ws://127.0.0.1:8000');
 
@@ -54,9 +56,21 @@ export default class App extends Component {
         {
           this.state.isLoggedIn ?
             <div>
-              <button onClick={() => 
-                this.onButtonClicked("Hello!")}>Send Message</button>
-                {this.state.messages.map( msg => <p>message: {msg.msg}, user: {msg.user} </p> )}
+              <div className='title'>
+                <Text type="secondary" style={{ fontSize: '36px'}}>WebSocket</Text>
+              </div>
+              <div className='bottom'>
+                <Search 
+                  placeholder='input message and send'
+                  enterButton='Send'
+                  value={this.state.searchVal}
+                  size='Large'
+                  onChange={(e) => this.setState({ searchVal: e.target.value})}
+                  onSearch={value => this.onButtonClicked(value)}
+                />
+
+                
+              </div>
             </div>
             :
             <div style={{ padding: '200px 40px'}}>
