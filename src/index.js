@@ -7,6 +7,7 @@ import './index.css'
 
 const { Search } = Input;
 const { Text } = Typography;
+const { Meta } = Card;
 
 const client = new W3CWebSocket('ws://127.0.0.1:8000');
 
@@ -24,8 +25,8 @@ export default class App extends Component {
         type: "message",
         msg: value,
         user: this.state.userName
-      })
-    );
+      }));
+      this.setState({ searchVal: ''});
   }
   componentDidMount()
   {
@@ -57,7 +58,20 @@ export default class App extends Component {
           this.state.isLoggedIn ?
             <div>
               <div className='title'>
-                <Text type="secondary" style={{ fontSize: '36px'}}>WebSocket</Text>
+                <Text type="secondary" style={{ fontSize: '36px'}}>WebSocket - React.js</Text>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: 50}}>
+                {this.state.messages.map( message => 
+                  <Card key={message.msg} style={{ width: 300, margin: '16px 4px 0 4px', alignSelf: this.state.userName === message.user ? 'flex-end' : 'flex-start'}}>
+                    <Meta 
+                      avatar={
+                        <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf'}}>{message.user[0].toUpperCase()}</Avatar>
+                      }
+                      title={message.user}
+                      description={message.msg}
+                    />
+                  </Card>
+                )}
               </div>
               <div className='bottom'>
                 <Search 
